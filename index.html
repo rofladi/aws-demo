@@ -1,588 +1,205 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VIT Pune AWS Cloud Day 2026 | Registration Portal</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- QRCode.js CDN for Generating Ticket QR Codes -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-  <script>
-    // Tailwind Custom Configuration for AWS Colors
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            aws: {
-              orange: '#FF9900',
-              hover: '#EC7211',
-              squid: '#232F3E',
-              dark: '#0F172A',
-              card: '#1E293B',
-              border: '#334155',
-              accent: '#38BDF8'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Day 2026 | VIT Pune</title>
+    <!-- Tailwind CSS for lightweight styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        awsNavy: '#232F3E',
+                        awsOrange: '#FF9900',
+                        awsLightBg: '#F8FAFC'
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
-
-  <style>
-    /* Custom Glow & Glassmorphism Effects */
-    .glow-orange {
-      box-shadow: 0 0 25px -5px rgba(255, 153, 0, 0.4);
-    }
-    .glow-blue {
-      box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.3);
-    }
-    .glass-panel {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .ticket-gradient {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    }
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #printableTicketSection, #printableTicketSection * {
-        visibility: visible;
-      }
-      #printableTicketSection {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
-    }
-  </style>
+    </script>
 </head>
-<body class="bg-aws-dark text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-aws-orange selection:text-black">
+<body class="bg-awsLightBg text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- ======================================================== -->
-  <!-- NAVIGATION BAR                                           -->
-  <!-- ======================================================== -->
-  <header class="sticky top-0 z-40 glass-panel border-b border-aws-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-aws-orange/10 border border-aws-orange/30 flex items-center justify-center text-aws-orange font-bold text-xl glow-orange">
-          ☁️
-        </div>
-        <div>
-          <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white block leading-none">
-            AWS Student Builder Group
-          </span>
-          <span class="text-xs font-semibold text-aws-orange tracking-wider uppercase">VIT Pune Chapter</span>
-        </div>
-      </div>
-
-      <!-- Nav Links & CTA -->
-      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-        <a href="#about" class="hover:text-aws-orange transition-colors">About</a>
-        <a href="#tracks" class="hover:text-aws-orange transition-colors">Tracks</a>
-        <a href="#register" class="hover:text-aws-orange transition-colors">Register</a>
-        <a href="#architecture" onclick="openArchModal()" class="hover:text-aws-accent transition-colors flex items-center gap-1.5">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          Cloud Telemetry
-        </a>
-      </nav>
-
-      <div class="flex items-center space-x-3">
-        <button onclick="openArchModal()" class="hidden sm:flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-lg bg-slate-800 border border-slate-700 hover:border-aws-orange text-slate-300 transition-all">
-          <svg class="w-4 h-4 text-aws-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-          Task 1 Status
-        </button>
-        <a href="#register" class="bg-aws-orange hover:bg-aws-hover text-slate-950 font-bold text-sm px-5 py-2.5 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-lg shadow-aws-orange/20">
-          Get Pass
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ======================================================== -->
-  <!-- HERO SECTION                                             -->
-  <!-- ======================================================== -->
-  <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
-    <!-- Glow Background Accents -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-aws-orange/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-aws-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-      
-      <!-- Event Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-aws-orange/10 border border-aws-orange/30 text-aws-orange text-xs sm:text-sm font-semibold mb-6">
-        <span class="flex h-2 w-2 rounded-full bg-aws-orange"></span>
-        ANNUAL FLAGSHIP TECH CONFERENCE 2026
-      </div>
-
-      <!-- Main Heading -->
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-tight">
-        VIT Pune <span class="bg-gradient-to-r from-aws-orange via-amber-300 to-aws-accent bg-clip-text text-transparent">AWS Cloud Day</span>
-      </h1>
-
-      <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-400 mb-10 leading-relaxed font-normal">
-        Architect the future with Cloud Computing, DevOps CI/CD Pipelines, and Generative AI on AWS. Join 500+ builders at Vishwakarma Institute of Technology, Pune.
-      </p>
-
-      <!-- Countdown Timer Component -->
-      <div class="max-w-xl mx-auto mb-10 grid grid-cols-4 gap-3 sm:gap-4 p-4 rounded-2xl bg-aws-card/80 border border-aws-border shadow-2xl">
-        <div class="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-          <span id="timer-days" class="block text-2xl sm:text-4xl font-extrabold text-aws-orange">24</span>
-          <span class="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider">Days</span>
-        </div>
-        <div class="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-          <span id="timer-hours" class="block text-2xl sm:text-4xl font-extrabold text-aws-orange">08</span>
-          <span class="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider">Hours</span>
-        </div>
-        <div class="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-          <span id="timer-minutes" class="block text-2xl sm:text-4xl font-extrabold text-aws-orange">42</span>
-          <span class="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider">Minutes</span>
-        </div>
-        <div class="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-          <span id="timer-seconds" class="block text-2xl sm:text-4xl font-extrabold text-aws-orange">19</span>
-          <span class="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider">Seconds</span>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="#register" class="w-full sm:w-auto bg-aws-orange hover:bg-aws-hover text-slate-950 font-extrabold text-base px-8 py-4 rounded-xl transition-all transform hover:-translate-y-1 shadow-xl shadow-aws-orange/25">
-          Reserve Free Student Slot
-        </a>
-        <button onclick="openArchModal()" class="w-full sm:w-auto glass-panel hover:bg-slate-800/80 text-white font-semibold text-base px-7 py-4 rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2">
-          <span>⚡</span> View Live AWS Telemetry
-        </button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ======================================================== -->
-  <!-- EVENT TRACKS & HIGHLIGHTS                                 -->
-  <!-- ======================================================== -->
-  <section id="tracks" class="py-16 bg-slate-900/50 border-y border-aws-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-xs font-bold text-aws-orange tracking-widest uppercase mb-2">Learning Tracks</h2>
-        <p class="text-3xl font-extrabold text-white">Choose Your Specialization Track</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        
-        <!-- Track 1 -->
-        <div class="p-8 rounded-2xl bg-aws-card border border-aws-border hover:border-aws-orange/50 transition-all group">
-          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-2xl mb-6 text-aws-orange group-hover:scale-110 transition-transform">
-            🏗️
-          </div>
-          <h3 class="text-xl font-bold text-white mb-3">Cloud Architecture & Security</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Master VPC Design, Auto-Scaling Fargate tasks, RDS Multi-AZ deployments, and AWS WAF attack mitigation strategies.
-          </p>
-          <span class="inline-block text-xs font-semibold text-aws-orange bg-aws-orange/10 px-3 py-1 rounded-full">Task 1 Focus</span>
-        </div>
-
-        <!-- Track 2 -->
-        <div class="p-8 rounded-2xl bg-aws-card border border-aws-border hover:border-aws-accent/50 transition-all group">
-          <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-2xl mb-6 text-aws-accent group-hover:scale-110 transition-transform">
-            🚀
-          </div>
-          <h3 class="text-xl font-bold text-white mb-3">DevOps & CI/CD Pipelines</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Automate code deployment using Docker containers, GitHub Actions workflows, and Terraform Infrastructure as Code (IaC).
-          </p>
-          <span class="inline-block text-xs font-semibold text-aws-accent bg-aws-accent/10 px-3 py-1 rounded-full">Task 3 Focus</span>
-        </div>
-
-        <!-- Track 3 -->
-        <div class="p-8 rounded-2xl bg-aws-card border border-aws-border hover:border-purple-500/50 transition-all group">
-          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-2xl mb-6 text-purple-400 group-hover:scale-110 transition-transform">
-            🤖
-          </div>
-          <h3 class="text-xl font-bold text-white mb-3">Generative AI on AWS</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Explore Amazon Bedrock, Large Language Models (LLMs), and cloud-native machine learning deployment architectures.
-          </p>
-          <span class="inline-block text-xs font-semibold text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full">Special Track</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================================================== -->
-  <!-- REGISTRATION FORM SECTION                                -->
-  <!-- ======================================================== -->
-  <section id="register" class="py-20 relative">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="p-8 sm:p-12 rounded-3xl bg-aws-card border border-aws-border shadow-2xl relative overflow-hidden">
-        
-        <!-- Header -->
-        <div class="mb-8 text-center">
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Student Ticket Registration</h2>
-          <p class="text-slate-400 text-sm">Fill in your details to receive your instant digital event pass</p>
-        </div>
-
-        <!-- Form -->
-        <form id="registrationForm" onsubmit="handleRegistration(event)" class="space-y-6">
-          
-          <!-- Full Name -->
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Full Name *</label>
-            <input type="text" id="fullName" required placeholder="e.g. Rahul Sharma" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-aws-orange transition-colors" />
-          </div>
-
-          <!-- Email & PRN Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">College Email *</label>
-              <input type="email" id="email" required placeholder="rahul.sharma@vit.edu" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-aws-orange transition-colors" />
+    <!-- Navigation Header -->
+    <header class="bg-awsNavy text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="bg-awsOrange text-awsNavy font-black text-xs px-2 py-1 rounded">AWS</span>
+                <span class="font-bold text-sm sm:text-base tracking-wide">Student Builder Group • VIT Pune</span>
             </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">PRN / Roll Number *</label>
-              <input type="text" id="prn" required placeholder="12110849" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-aws-orange transition-colors" />
-            </div>
-          </div>
-
-          <!-- Department & Year Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Department / Branch *</label>
-              <select id="branch" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-aws-orange transition-colors">
-                <option value="">Select Branch</option>
-                <option value="Computer Engineering">Computer Engineering</option>
-                <option value="Information Technology">Information Technology</option>
-                <option value="AI & Data Science">AI & Data Science</option>
-                <option value="ENTC Engineering">ENTC Engineering</option>
-                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Year of Study *</label>
-              <select id="year" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-aws-orange transition-colors">
-                <option value="">Select Year</option>
-                <option value="First Year (FE)">First Year (FE)</option>
-                <option value="Second Year (SE)">Second Year (SE)</option>
-                <option value="Third Year (TE)">Third Year (TE)</option>
-                <option value="Final Year (BE)">Final Year (BE)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Track Selection -->
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Primary Track Choice *</label>
-            <select id="track" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-aws-orange transition-colors">
-              <option value="Cloud Architecture & Security">Cloud Architecture & Security</option>
-              <option value="DevOps & CI/CD Pipelines">DevOps & CI/CD Pipelines</option>
-              <option value="Generative AI on AWS">Generative AI on AWS</option>
-            </select>
-          </div>
-
-          <!-- College ID Upload Simulation -->
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">College ID Verification (Optional Upload)</label>
-            <div class="border-2 border-dashed border-slate-700 hover:border-aws-orange/50 rounded-xl p-4 text-center cursor-pointer transition-colors bg-slate-900/50" onclick="document.getElementById('idUpload').click()">
-              <input type="file" id="idUpload" class="hidden" onchange="handleFilePreview(this)" />
-              <svg class="w-8 h-8 text-slate-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-              <span id="filePreviewText" class="text-xs text-slate-400">Click to attach student ID card photo</span>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <button type="submit" id="submitBtn" class="w-full bg-aws-orange hover:bg-aws-hover text-slate-950 font-extrabold text-base py-4 rounded-xl transition-all shadow-xl shadow-aws-orange/20 flex items-center justify-center gap-2">
-            <span>Generate Official Event Pass</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-          </button>
-
-        </form>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================================================== -->
-  <!-- DIGITAL TICKET MODAL (PASS GENERATOR)                    -->
-  <!-- ======================================================== -->
-  <div id="ticketModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-    <div class="max-w-xl w-full">
-      
-      <div id="printableTicketSection" class="p-8 rounded-3xl ticket-gradient border-2 border-aws-orange/40 shadow-2xl relative text-white">
-        
-        <!-- Pass Header -->
-        <div class="flex items-center justify-between pb-6 border-b border-slate-700/80 mb-6">
-          <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-aws-orange/20 border border-aws-orange/50 flex items-center justify-center text-xl">
-              ☁️
-            </div>
-            <div>
-              <h3 class="font-extrabold text-base text-white">VIT Pune AWS Cloud Day 2026</h3>
-              <p class="text-xs text-aws-orange font-semibold">OFFICIAL ADMISSION PASS</p>
-            </div>
-          </div>
-          <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
-            CONFIRMED
-          </span>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#about" class="hover:text-awsOrange transition">About</a>
+                <a href="#agenda" class="hover:text-awsOrange transition">Agenda</a>
+                <a href="#register" class="hover:text-awsOrange transition">Register</a>
+                <a href="#architecture" class="hover:text-awsOrange transition">Cloud Specs</a>
+            </nav>
         </div>
+    </header>
 
-        <!-- Ticket Body -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center mb-6">
-          
-          <div class="sm:col-span-2 space-y-3">
-            <div>
-              <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Attendee Name</span>
-              <p id="ticketName" class="text-xl font-black text-white">Rahul Sharma</p>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Hero Banner -->
+        <section class="bg-white rounded-xl border border-slate-200 p-6 md:p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="space-y-4 max-w-2xl">
+                <span class="inline-block bg-orange-100 text-orange-800 text-xs font-semibold px-3 py-1 rounded-full border border-orange-200">
+                    Campus Event • Free Entry
+                </span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-awsNavy tracking-tight">
+                    AWS Cloud Day 2026 @ VIT Pune
+                </h1>
+                <p class="text-slate-600 text-base leading-relaxed">
+                    Join the AWS Student Builder Group for a hands-on technical workshop on Cloud Architecture, Serverless Computing, and DevOps deployment workflows.
+                </p>
+                <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-500 pt-2">
+                    <span class="flex items-center gap-1 font-medium text-slate-700">📍 Sharad Arena / CC Lab, VIT Pune</span>
+                    <span class="flex items-center gap-1 font-medium text-slate-700">📅 Nov 15, 2026 | 10:00 AM IST</span>
+                </div>
+                <div class="pt-2">
+                    <a href="#register" class="inline-block bg-awsOrange text-awsNavy font-bold px-6 py-3 rounded-lg shadow hover:bg-amber-500 transition text-sm">
+                        Reserve Your Seat
+                    </a>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <span class="text-[10px] uppercase tracking-wider text-slate-400 block">PRN / Roll No</span>
-                <p id="ticketPRN" class="font-semibold text-slate-200">12110849</p>
-              </div>
-              <div>
-                <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Branch</span>
-                <p id="ticketBranch" class="font-semibold text-slate-200">Computer</p>
-              </div>
+            <!-- Simple Countdown Box -->
+            <div class="bg-slate-50 border border-slate-200 p-6 rounded-lg text-center w-full md:w-64">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Registration Closes In</p>
+                <div class="text-2xl font-black text-awsNavy font-mono" id="countdown">04d : 12h : 30m</div>
+                <p class="text-xs text-slate-500 mt-2">Limited to 150 Seats</p>
+            </div>
+        </section>
+
+        <!-- Agenda Section -->
+        <section id="agenda" class="space-y-4">
+            <h2 class="text-xl font-bold text-awsNavy border-b border-slate-200 pb-2">Event Schedule</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-awsOrange">10:00 AM - 11:15 AM</span>
+                    <h3 class="font-bold text-awsNavy mt-1">Keynote: Cloud Fundamentals</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-normal">Introduction to Route 53, CloudFront CDN, S3, and Virtual Private Cloud (VPC) setup.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-awsOrange">11:30 AM - 01:00 PM</span>
+                    <h3 class="font-bold text-awsNavy mt-1">Hands-on: Serverless & Containers</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-normal">Building containerized microservices on AWS Fargate with RDS database integration.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-awsOrange">02:00 PM - 03:30 PM</span>
+                    <h3 class="font-bold text-awsNavy mt-1">DevOps Pipeline & Quiz</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-normal">Automated CI/CD workflows using GitHub Actions and live cloud technical quiz.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Form -->
+        <section id="register" class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm max-w-2xl mx-auto">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-awsNavy">Student Registration</h2>
+                <p class="text-xs text-slate-500 mt-1">Enter your details to generate your digital event entry ticket.</p>
             </div>
 
-            <div>
-              <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Selected Track</span>
-              <p id="ticketTrack" class="text-xs font-bold text-aws-accent">Cloud Architecture & Security</p>
+            <form id="registrationForm" onsubmit="handleRegistration(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
+                    <input type="text" id="fullName" required placeholder="e.g. Rahul Sharma" 
+                           class="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-awsOrange">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">VIT Email Address</label>
+                        <input type="email" id="email" required placeholder="name@vit.edu" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-awsOrange">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">PRN / Roll Number</label>
+                        <input type="text" id="prn" required placeholder="e.g. 12210000" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-awsOrange">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Department / Branch</label>
+                        <select id="branch" class="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-awsOrange">
+                            <option>Computer Engineering</option>
+                            <option>Information Technology</option>
+                            <option>AI & Data Science</option>
+                            <option>ENTC</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Year of Study</label>
+                        <select id="year" class="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-awsOrange">
+                            <option>First Year (FY)</option>
+                            <option>Second Year (SY)</option>
+                            <option>Third Year (TY)</option>
+                            <option>Final Year (B.Tech)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-awsNavy text-white font-bold py-3 rounded hover:bg-slate-800 transition text-sm mt-2">
+                    Submit Registration
+                </button>
+            </form>
+
+            <!-- Success Confirmation Box (Hidden by default) -->
+            <div id="successBox" class="hidden mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-lg text-center space-y-3">
+                <div class="inline-block bg-emerald-100 text-emerald-800 p-2 rounded-full font-bold text-lg">✓</div>
+                <h3 class="font-bold text-emerald-900 text-base">Registration Confirmed!</h3>
+                <p class="text-xs text-emerald-700">Your registration ID: <span id="ticketId" class="font-mono font-bold"></span></p>
+                <div class="bg-white p-3 inline-block rounded border border-slate-200">
+                    <img id="qrCode" src="" alt="Ticket QR Code" class="w-32 h-32 mx-auto">
+                </div>
+                <p class="text-xs text-slate-500">Show this QR code at the event check-in desk at VIT Pune.</p>
             </div>
+        </section>
 
-            <div>
-              <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Registration ID</span>
-              <p id="ticketRegID" class="text-xs font-mono font-bold text-aws-orange">AWS-VIT-2026-84920</p>
+        <!-- Technical Architecture Section (Links directly to Task 1) -->
+        <section id="architecture" class="bg-slate-900 text-white p-6 rounded-xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h2 class="text-base font-bold text-awsOrange">Cloud Hosting Infrastructure (Task 1 Architecture)</h2>
+                <span class="text-xs text-slate-400 font-mono">Multi-AZ Deployment</span>
             </div>
-          </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                This portal is designed based on a resilient 3-tier architecture: static React/HTML frontend assets served via <strong>Amazon S3 + CloudFront CDN</strong>, dynamic backend microservices on <strong>AWS Fargate</strong>, and transactional data stored in <strong>Amazon RDS (PostgreSQL)</strong> with Multi-AZ failover support.
+            </p>
+        </section>
 
-          <!-- QR Code Generator Target -->
-          <div class="flex flex-col items-center justify-center bg-white p-3 rounded-2xl shadow-inner">
-            <div id="qrcode"></div>
-            <span class="text-[9px] font-bold text-slate-800 mt-2">SCAN AT GATE</span>
-          </div>
+    </main>
 
+    <!-- Footer -->
+    <footer class="bg-awsNavy text-slate-400 text-xs py-6 mt-12 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
+            <p>© 2026 AWS Student Builder Group • Vishwakarma Institute of Technology, Pune</p>
+            <p class="text-slate-500">Built for Co-Head Technical Assessment Submission</p>
         </div>
+    </footer>
 
-        <!-- Venue Footer -->
-        <div class="pt-4 border-t border-slate-800 flex justify-between text-[11px] text-slate-400">
-          <span>📍 Sharad Arena, VIT Pune Campus</span>
-          <span>📅 Nov 15, 2026 | 09:00 AM</span>
-        </div>
-
-      </div>
-
-      <!-- Modal Action Controls -->
-      <div class="mt-6 flex gap-4">
-        <button onclick="window.print()" class="flex-1 bg-aws-orange text-slate-950 font-bold py-3 rounded-xl hover:bg-aws-hover transition-colors text-sm">
-          🖨️ Download / Print Pass
-        </button>
-        <button onclick="closeTicketModal()" class="px-6 bg-slate-800 text-slate-300 font-semibold py-3 rounded-xl hover:bg-slate-700 transition-colors text-sm">
-          Close
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- AWS CLOUD TELEMETRY MODAL (TASK 1 SIMULATION)             -->
-  <!-- ======================================================== -->
-  <div id="archModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
-    <div class="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-aws-card border border-aws-border rounded-3xl p-6 sm:p-8 shadow-2xl">
-      
-      <div class="flex items-center justify-between pb-4 border-b border-aws-border mb-6">
-        <div>
-          <h3 class="text-xl font-extrabold text-white flex items-center gap-2">
-            <span>⚡</span> AWS Cloud Infrastructure Telemetry
-          </h3>
-          <p class="text-xs text-slate-400">Simulated real-time status of Task 1 architecture components</p>
-        </div>
-        <button onclick="closeArchModal()" class="text-slate-400 hover:text-white p-2 text-xl font-bold">✕</button>
-      </div>
-
-      <!-- Telemetry Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <!-- Route 53 -->
-        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold text-slate-300">Amazon Route 53 (DNS)</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">HEALTHY</span>
-          </div>
-          <p class="text-xs text-slate-400">DNS Resolution: <strong>12ms</strong> | Latency Routing: <strong>Active</strong></p>
-        </div>
-
-        <!-- CloudFront + WAF -->
-        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold text-slate-300">CloudFront CDN + AWS WAF</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">EDGE CACHED</span>
-          </div>
-          <p class="text-xs text-slate-400">Cache Hit Ratio: <strong class="text-aws-orange">96.4%</strong> | SQLi Attack Blocks: <strong>142</strong></p>
-        </div>
-
-        <!-- Application Load Balancer -->
-        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold text-slate-300">Application Load Balancer</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">BALANCED</span>
-          </div>
-          <p class="text-xs text-slate-400">Active HTTP/2 Connections: <strong id="metric-alb">384</strong> | Error 5xx Rate: <strong>0.00%</strong></p>
-        </div>
-
-        <!-- AWS Fargate Containers -->
-        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold text-slate-300">AWS Fargate Tasks (Backend)</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-400">AUTO-SCALED</span>
-          </div>
-          <p class="text-xs text-slate-400">Active Containers: <strong>6 / 6</strong> | CPU Load: <strong id="metric-cpu">28%</strong></p>
-        </div>
-
-        <!-- Amazon RDS PostgreSQL -->
-        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold text-slate-300">Amazon RDS (Multi-AZ Postgres)</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">SYNCHRONIZED</span>
-          </div>
-          <p class="text-xs text-slate-400">Replication Lag: <strong>0.04s</strong> | Storage Encrypted: <strong>AWS KMS</strong></p>
-        </div>
-
-        <!-- ElastiCache Redis -->
-        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-xs font-bold text-slate-300">Amazon ElastiCache (Redis)</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-400">RAM CACHE</span>
-          </div>
-          <p class="text-xs text-slate-400">Session Keys Stored: <strong>1,840</strong> | Hit Rate: <strong>98.9%</strong></p>
-        </div>
-
-      </div>
-
-      <div class="mt-6 text-center">
-        <button onclick="closeArchModal()" class="bg-aws-orange text-slate-950 font-bold px-6 py-2.5 rounded-xl text-sm hover:bg-aws-hover transition-colors">
-          Close Telemetry View
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- FOOTER                                                   -->
-  <!-- ======================================================== -->
-  <footer class="mt-auto py-8 bg-slate-950 border-t border-aws-border text-center text-xs text-slate-500">
-    <p>© 2026 AWS Student Builder Group at VIT Pune. Built for Co-Head Recruitment Technical Assessment.</p>
-  </footer>
-
-  <!-- ======================================================== -->
-  <!-- JAVASCRIPT LOGIC                                         -->
-  <!-- ======================================================== -->
-  <script>
-    // 1. COUNTDOWN TIMER
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 24);
-
-    function updateCountdown() {
-      const now = new Date();
-      const difference = targetDate - now;
-
-      if (difference > 0) {
-        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const h = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((difference / 1000 / 60) % 60);
-        const s = Math.floor((difference / 1000) % 60);
-
-        document.getElementById('timer-days').innerText = String(d).padStart(2, '0');
-        document.getElementById('timer-hours').innerText = String(h).padStart(2, '0');
-        document.getElementById('timer-minutes').innerText = String(m).padStart(2, '0');
-        document.getElementById('timer-seconds').innerText = String(s).padStart(2, '0');
-      }
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // 2. FILE UPLOAD PREVIEW
-    function handleFilePreview(input) {
-      if (input.files && input.files[0]) {
-        document.getElementById('filePreviewText').innerText = 'Attached: ' + input.files[0].name;
-      }
-    }
-
-    // 3. REGISTRATION FORM & TICKET GENERATOR
-    function handleRegistration(event) {
-      event.preventDefault();
-      
-      const name = document.getElementById('fullName').value;
-      const prn = document.getElementById('prn').value;
-      const branch = document.getElementById('branch').value;
-      const track = document.getElementById('track').value;
-
-      // Populate Ticket Data
-      document.getElementById('ticketName').innerText = name;
-      document.getElementById('ticketPRN').innerText = prn;
-      document.getElementById('ticketBranch').innerText = branch;
-      document.getElementById('ticketTrack').innerText = track;
-      
-      const uniqueID = 'AWS-VIT-2026-' + Math.floor(10000 + Math.random() * 90000);
-      document.getElementById('ticketRegID').innerText = uniqueID;
-
-      // Generate QR Code
-      const qrContainer = document.getElementById('qrcode');
-      qrContainer.innerHTML = '';
-      new QRCode(qrContainer, {
-        text: `VIT-AWS-PASS:${uniqueID}:${prn}`,
-        width: 100,
-        height: 100
-      });
-
-      // Show Ticket Modal
-      document.getElementById('ticketModal').classList.remove('hidden');
-    }
-
-    function closeTicketModal() {
-      document.getElementById('ticketModal').classList.add('hidden');
-    }
-
-    // 4. TELEMETRY MODAL LOGIC
-    function openArchModal() {
-      document.getElementById('archModal').classList.remove('hidden');
-    }
-    function closeArchModal() {
-      document.getElementById('archModal').classList.add('hidden');
-    }
-
-    // 5. LIVE METRIC FLUCTUATION SIMULATION
-    setInterval(() => {
-      const albElem = document.getElementById('metric-alb');
-      const cpuElem = document.getElementById('metric-cpu');
-      if (albElem && cpuElem) {
-        albElem.innerText = Math.floor(350 + Math.random() * 60);
-        cpuElem.innerText = Math.floor(22 + Math.random() * 15) + '%';
-      }
-    }, 2000);
-  </script>
+    <!-- Simple JavaScript for Interactive Logic -->
+    <script>
+        function handleRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('fullName').value;
+            const prn = document.getElementById('prn').value;
+            
+            // Generate a realistic registration ticket ID
+            const randomId = 'VIT-AWS-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('ticketId').innerText = randomId;
+            
+            // Generate dynamic QR code image via free public API
+            document.getElementById('qrCode').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${randomId}`;
+            
+            // Hide form and show ticket receipt
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.getElementById('successBox').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
